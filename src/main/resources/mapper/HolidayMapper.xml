@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mapper.HolidayMapper" >
+  <resultMap id="BaseResultMap" type="com.entity.Holiday" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="holidayStartTime" property="holidayStartTime" jdbcType="TIMESTAMP" />
+    <result column="holidayEndTime" property="holidayEndTime" jdbcType="TIMESTAMP" />
+    <result column="additionalPrice" property="additionalPrice" jdbcType="DECIMAL" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
+    <result column="creatTime" property="creatTime" jdbcType="TIMESTAMP" />
+    <result column="lastUpdate" property="lastUpdate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, holidayStartTime, holidayEndTime, additionalPrice, creator, creatTime, lastUpdate
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from holiday
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from holiday
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.entity.Holiday" >
+    insert into holiday (id, holidayStartTime, holidayEndTime, 
+      additionalPrice, creator, creatTime, 
+      lastUpdate)
+    values (#{id,jdbcType=INTEGER}, #{holidayStartTime,jdbcType=TIMESTAMP}, #{holidayEndTime,jdbcType=TIMESTAMP}, 
+      #{additionalPrice,jdbcType=DECIMAL}, #{creator,jdbcType=VARCHAR}, #{creatTime,jdbcType=TIMESTAMP}, 
+      #{lastUpdate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.entity.Holiday" >
+    insert into holiday
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="holidayStartTime != null" >
+        holidayStartTime,
+      </if>
+      <if test="holidayEndTime != null" >
+        holidayEndTime,
+      </if>
+      <if test="additionalPrice != null" >
+        additionalPrice,
+      </if>
+      <if test="creator != null" >
+        creator,
+      </if>
+      <if test="creatTime != null" >
+        creatTime,
+      </if>
+      <if test="lastUpdate != null" >
+        lastUpdate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="holidayStartTime != null" >
+        #{holidayStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="holidayEndTime != null" >
+        #{holidayEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="additionalPrice != null" >
+        #{additionalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="creatTime != null" >
+        #{creatTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdate != null" >
+        #{lastUpdate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.entity.Holiday" >
+    update holiday
+    <set >
+      <if test="holidayStartTime != null" >
+        holidayStartTime = #{holidayStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="holidayEndTime != null" >
+        holidayEndTime = #{holidayEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="additionalPrice != null" >
+        additionalPrice = #{additionalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="creator != null" >
+        creator = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="creatTime != null" >
+        creatTime = #{creatTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdate != null" >
+        lastUpdate = #{lastUpdate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.entity.Holiday" >
+    update holiday
+    set holidayStartTime = #{holidayStartTime,jdbcType=TIMESTAMP},
+      holidayEndTime = #{holidayEndTime,jdbcType=TIMESTAMP},
+      additionalPrice = #{additionalPrice,jdbcType=DECIMAL},
+      creator = #{creator,jdbcType=VARCHAR},
+      creatTime = #{creatTime,jdbcType=TIMESTAMP},
+      lastUpdate = #{lastUpdate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

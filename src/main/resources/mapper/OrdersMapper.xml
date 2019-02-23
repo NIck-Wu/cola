@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mapper.OrdersMapper" >
+  <resultMap id="BaseResultMap" type="com.entity.Orders" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="orderNO" property="orderNO" jdbcType="VARCHAR" />
+    <result column="userID" property="userID" jdbcType="INTEGER" />
+    <result column="useCarTime" property="useCarTime" jdbcType="TIMESTAMP" />
+    <result column="startPlace" property="startPlace" jdbcType="VARCHAR" />
+    <result column="endPlace" property="endPlace" jdbcType="VARCHAR" />
+    <result column="startPlaceLongitudeAndLatitude" property="startPlaceLongitudeAndLatitude" jdbcType="VARCHAR" />
+    <result column="EndPlaceLongitudeAndLatitude" property="endPlaceLongitudeAndLatitude" jdbcType="VARCHAR" />
+    <result column="channelPlace" property="channelPlace" jdbcType="VARCHAR" />
+    <result column="channelPlaceLongitudeAndLatitude" property="channelPlaceLongitudeAndLatitude" jdbcType="VARCHAR" />
+    <result column="gatewaysCode" property="gatewaysCode" jdbcType="VARCHAR" />
+    <result column="contactNumber" property="contactNumber" jdbcType="VARCHAR" />
+    <result column="linkName" property="linkName" jdbcType="VARCHAR" />
+    <result column="driveID" property="driveID" jdbcType="INTEGER" />
+    <result column="isAssignment" property="isAssignment" jdbcType="VARCHAR" />
+    <result column="assignmentTime" property="assignmentTime" jdbcType="TIMESTAMP" />
+    <result column="totalKilometres" property="totalKilometres" jdbcType="INTEGER" />
+    <result column="orderAmount" property="orderAmount" jdbcType="DECIMAL" />
+    <result column="earnestMoney" property="earnestMoney" jdbcType="DECIMAL" />
+    <result column="adjustmentMoney" property="adjustmentMoney" jdbcType="DECIMAL" />
+    <result column="earnestMoneyPayStatus" property="earnestMoneyPayStatus" jdbcType="VARCHAR" />
+    <result column="earnestMoneyPayFinshTime" property="earnestMoneyPayFinshTime" jdbcType="TIMESTAMP" />
+    <result column="payFinishTime" property="payFinishTime" jdbcType="TIMESTAMP" />
+    <result column="carID" property="carID" jdbcType="INTEGER" />
+    <result column="couponCode" property="couponCode" jdbcType="VARCHAR" />
+    <result column="isArrange" property="isArrange" jdbcType="VARCHAR" />
+    <result column="flightNO" property="flightNO" jdbcType="VARCHAR" />
+    <result column="orderStatus" property="orderStatus" jdbcType="VARCHAR" />
+    <result column="memo" property="memo" jdbcType="VARCHAR" />
+    <result column="creatTime" property="creatTime" jdbcType="TIMESTAMP" />
+    <result column="lastUpdate" property="lastUpdate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, orderNO, userID, useCarTime, startPlace, endPlace, startPlaceLongitudeAndLatitude, 
+    EndPlaceLongitudeAndLatitude, channelPlace, channelPlaceLongitudeAndLatitude, gatewaysCode, 
+    contactNumber, linkName, driveID, isAssignment, assignmentTime, totalKilometres, 
+    orderAmount, earnestMoney, adjustmentMoney, earnestMoneyPayStatus, earnestMoneyPayFinshTime, 
+    payFinishTime, carID, couponCode, isArrange, flightNO, orderStatus, memo, creatTime, 
+    lastUpdate
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from orders
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from orders
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.entity.Orders" >
+    insert into orders (id, orderNO, userID, 
+      useCarTime, startPlace, endPlace, 
+      startPlaceLongitudeAndLatitude, EndPlaceLongitudeAndLatitude, 
+      channelPlace, channelPlaceLongitudeAndLatitude, 
+      gatewaysCode, contactNumber, linkName, 
+      driveID, isAssignment, assignmentTime, 
+      totalKilometres, orderAmount, earnestMoney, 
+      adjustmentMoney, earnestMoneyPayStatus, 
+      earnestMoneyPayFinshTime, payFinishTime, 
+      carID, couponCode, isArrange, 
+      flightNO, orderStatus, memo, 
+      creatTime, lastUpdate)
+    values (#{id,jdbcType=INTEGER}, #{orderNO,jdbcType=VARCHAR}, #{userID,jdbcType=INTEGER}, 
+      #{useCarTime,jdbcType=TIMESTAMP}, #{startPlace,jdbcType=VARCHAR}, #{endPlace,jdbcType=VARCHAR}, 
+      #{startPlaceLongitudeAndLatitude,jdbcType=VARCHAR}, #{endPlaceLongitudeAndLatitude,jdbcType=VARCHAR}, 
+      #{channelPlace,jdbcType=VARCHAR}, #{channelPlaceLongitudeAndLatitude,jdbcType=VARCHAR}, 
+      #{gatewaysCode,jdbcType=VARCHAR}, #{contactNumber,jdbcType=VARCHAR}, #{linkName,jdbcType=VARCHAR}, 
+      #{driveID,jdbcType=INTEGER}, #{isAssignment,jdbcType=VARCHAR}, #{assignmentTime,jdbcType=TIMESTAMP}, 
+      #{totalKilometres,jdbcType=INTEGER}, #{orderAmount,jdbcType=DECIMAL}, #{earnestMoney,jdbcType=DECIMAL}, 
+      #{adjustmentMoney,jdbcType=DECIMAL}, #{earnestMoneyPayStatus,jdbcType=VARCHAR}, 
+      #{earnestMoneyPayFinshTime,jdbcType=TIMESTAMP}, #{payFinishTime,jdbcType=TIMESTAMP}, 
+      #{carID,jdbcType=INTEGER}, #{couponCode,jdbcType=VARCHAR}, #{isArrange,jdbcType=VARCHAR}, 
+      #{flightNO,jdbcType=VARCHAR}, #{orderStatus,jdbcType=VARCHAR}, #{memo,jdbcType=VARCHAR}, 
+      #{creatTime,jdbcType=TIMESTAMP}, #{lastUpdate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.entity.Orders" >
+    insert into orders
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="orderNO != null" >
+        orderNO,
+      </if>
+      <if test="userID != null" >
+        userID,
+      </if>
+      <if test="useCarTime != null" >
+        useCarTime,
+      </if>
+      <if test="startPlace != null" >
+        startPlace,
+      </if>
+      <if test="endPlace != null" >
+        endPlace,
+      </if>
+      <if test="startPlaceLongitudeAndLatitude != null" >
+        startPlaceLongitudeAndLatitude,
+      </if>
+      <if test="endPlaceLongitudeAndLatitude != null" >
+        EndPlaceLongitudeAndLatitude,
+      </if>
+      <if test="channelPlace != null" >
+        channelPlace,
+      </if>
+      <if test="channelPlaceLongitudeAndLatitude != null" >
+        channelPlaceLongitudeAndLatitude,
+      </if>
+      <if test="gatewaysCode != null" >
+        gatewaysCode,
+      </if>
+      <if test="contactNumber != null" >
+        contactNumber,
+      </if>
+      <if test="linkName != null" >
+        linkName,
+      </if>
+      <if test="driveID != null" >
+        driveID,
+      </if>
+      <if test="isAssignment != null" >
+        isAssignment,
+      </if>
+      <if test="assignmentTime != null" >
+        assignmentTime,
+      </if>
+      <if test="totalKilometres != null" >
+        totalKilometres,
+      </if>
+      <if test="orderAmount != null" >
+        orderAmount,
+      </if>
+      <if test="earnestMoney != null" >
+        earnestMoney,
+      </if>
+      <if test="adjustmentMoney != null" >
+        adjustmentMoney,
+      </if>
+      <if test="earnestMoneyPayStatus != null" >
+        earnestMoneyPayStatus,
+      </if>
+      <if test="earnestMoneyPayFinshTime != null" >
+        earnestMoneyPayFinshTime,
+      </if>
+      <if test="payFinishTime != null" >
+        payFinishTime,
+      </if>
+      <if test="carID != null" >
+        carID,
+      </if>
+      <if test="couponCode != null" >
+        couponCode,
+      </if>
+      <if test="isArrange != null" >
+        isArrange,
+      </if>
+      <if test="flightNO != null" >
+        flightNO,
+      </if>
+      <if test="orderStatus != null" >
+        orderStatus,
+      </if>
+      <if test="memo != null" >
+        memo,
+      </if>
+      <if test="creatTime != null" >
+        creatTime,
+      </if>
+      <if test="lastUpdate != null" >
+        lastUpdate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="orderNO != null" >
+        #{orderNO,jdbcType=VARCHAR},
+      </if>
+      <if test="userID != null" >
+        #{userID,jdbcType=INTEGER},
+      </if>
+      <if test="useCarTime != null" >
+        #{useCarTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="startPlace != null" >
+        #{startPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="endPlace != null" >
+        #{endPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="startPlaceLongitudeAndLatitude != null" >
+        #{startPlaceLongitudeAndLatitude,jdbcType=VARCHAR},
+      </if>
+      <if test="endPlaceLongitudeAndLatitude != null" >
+        #{endPlaceLongitudeAndLatitude,jdbcType=VARCHAR},
+      </if>
+      <if test="channelPlace != null" >
+        #{channelPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="channelPlaceLongitudeAndLatitude != null" >
+        #{channelPlaceLongitudeAndLatitude,jdbcType=VARCHAR},
+      </if>
+      <if test="gatewaysCode != null" >
+        #{gatewaysCode,jdbcType=VARCHAR},
+      </if>
+      <if test="contactNumber != null" >
+        #{contactNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="linkName != null" >
+        #{linkName,jdbcType=VARCHAR},
+      </if>
+      <if test="driveID != null" >
+        #{driveID,jdbcType=INTEGER},
+      </if>
+      <if test="isAssignment != null" >
+        #{isAssignment,jdbcType=VARCHAR},
+      </if>
+      <if test="assignmentTime != null" >
+        #{assignmentTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="totalKilometres != null" >
+        #{totalKilometres,jdbcType=INTEGER},
+      </if>
+      <if test="orderAmount != null" >
+        #{orderAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="earnestMoney != null" >
+        #{earnestMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="adjustmentMoney != null" >
+        #{adjustmentMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="earnestMoneyPayStatus != null" >
+        #{earnestMoneyPayStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="earnestMoneyPayFinshTime != null" >
+        #{earnestMoneyPayFinshTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payFinishTime != null" >
+        #{payFinishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="carID != null" >
+        #{carID,jdbcType=INTEGER},
+      </if>
+      <if test="couponCode != null" >
+        #{couponCode,jdbcType=VARCHAR},
+      </if>
+      <if test="isArrange != null" >
+        #{isArrange,jdbcType=VARCHAR},
+      </if>
+      <if test="flightNO != null" >
+        #{flightNO,jdbcType=VARCHAR},
+      </if>
+      <if test="orderStatus != null" >
+        #{orderStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null" >
+        #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="creatTime != null" >
+        #{creatTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdate != null" >
+        #{lastUpdate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.entity.Orders" >
+    update orders
+    <set >
+      <if test="orderNO != null" >
+        orderNO = #{orderNO,jdbcType=VARCHAR},
+      </if>
+      <if test="userID != null" >
+        userID = #{userID,jdbcType=INTEGER},
+      </if>
+      <if test="useCarTime != null" >
+        useCarTime = #{useCarTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="startPlace != null" >
+        startPlace = #{startPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="endPlace != null" >
+        endPlace = #{endPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="startPlaceLongitudeAndLatitude != null" >
+        startPlaceLongitudeAndLatitude = #{startPlaceLongitudeAndLatitude,jdbcType=VARCHAR},
+      </if>
+      <if test="endPlaceLongitudeAndLatitude != null" >
+        EndPlaceLongitudeAndLatitude = #{endPlaceLongitudeAndLatitude,jdbcType=VARCHAR},
+      </if>
+      <if test="channelPlace != null" >
+        channelPlace = #{channelPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="channelPlaceLongitudeAndLatitude != null" >
+        channelPlaceLongitudeAndLatitude = #{channelPlaceLongitudeAndLatitude,jdbcType=VARCHAR},
+      </if>
+      <if test="gatewaysCode != null" >
+        gatewaysCode = #{gatewaysCode,jdbcType=VARCHAR},
+      </if>
+      <if test="contactNumber != null" >
+        contactNumber = #{contactNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="linkName != null" >
+        linkName = #{linkName,jdbcType=VARCHAR},
+      </if>
+      <if test="driveID != null" >
+        driveID = #{driveID,jdbcType=INTEGER},
+      </if>
+      <if test="isAssignment != null" >
+        isAssignment = #{isAssignment,jdbcType=VARCHAR},
+      </if>
+      <if test="assignmentTime != null" >
+        assignmentTime = #{assignmentTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="totalKilometres != null" >
+        totalKilometres = #{totalKilometres,jdbcType=INTEGER},
+      </if>
+      <if test="orderAmount != null" >
+        orderAmount = #{orderAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="earnestMoney != null" >
+        earnestMoney = #{earnestMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="adjustmentMoney != null" >
+        adjustmentMoney = #{adjustmentMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="earnestMoneyPayStatus != null" >
+        earnestMoneyPayStatus = #{earnestMoneyPayStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="earnestMoneyPayFinshTime != null" >
+        earnestMoneyPayFinshTime = #{earnestMoneyPayFinshTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payFinishTime != null" >
+        payFinishTime = #{payFinishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="carID != null" >
+        carID = #{carID,jdbcType=INTEGER},
+      </if>
+      <if test="couponCode != null" >
+        couponCode = #{couponCode,jdbcType=VARCHAR},
+      </if>
+      <if test="isArrange != null" >
+        isArrange = #{isArrange,jdbcType=VARCHAR},
+      </if>
+      <if test="flightNO != null" >
+        flightNO = #{flightNO,jdbcType=VARCHAR},
+      </if>
+      <if test="orderStatus != null" >
+        orderStatus = #{orderStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null" >
+        memo = #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="creatTime != null" >
+        creatTime = #{creatTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdate != null" >
+        lastUpdate = #{lastUpdate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.entity.Orders" >
+    update orders
+    set orderNO = #{orderNO,jdbcType=VARCHAR},
+      userID = #{userID,jdbcType=INTEGER},
+      useCarTime = #{useCarTime,jdbcType=TIMESTAMP},
+      startPlace = #{startPlace,jdbcType=VARCHAR},
+      endPlace = #{endPlace,jdbcType=VARCHAR},
+      startPlaceLongitudeAndLatitude = #{startPlaceLongitudeAndLatitude,jdbcType=VARCHAR},
+      EndPlaceLongitudeAndLatitude = #{endPlaceLongitudeAndLatitude,jdbcType=VARCHAR},
+      channelPlace = #{channelPlace,jdbcType=VARCHAR},
+      channelPlaceLongitudeAndLatitude = #{channelPlaceLongitudeAndLatitude,jdbcType=VARCHAR},
+      gatewaysCode = #{gatewaysCode,jdbcType=VARCHAR},
+      contactNumber = #{contactNumber,jdbcType=VARCHAR},
+      linkName = #{linkName,jdbcType=VARCHAR},
+      driveID = #{driveID,jdbcType=INTEGER},
+      isAssignment = #{isAssignment,jdbcType=VARCHAR},
+      assignmentTime = #{assignmentTime,jdbcType=TIMESTAMP},
+      totalKilometres = #{totalKilometres,jdbcType=INTEGER},
+      orderAmount = #{orderAmount,jdbcType=DECIMAL},
+      earnestMoney = #{earnestMoney,jdbcType=DECIMAL},
+      adjustmentMoney = #{adjustmentMoney,jdbcType=DECIMAL},
+      earnestMoneyPayStatus = #{earnestMoneyPayStatus,jdbcType=VARCHAR},
+      earnestMoneyPayFinshTime = #{earnestMoneyPayFinshTime,jdbcType=TIMESTAMP},
+      payFinishTime = #{payFinishTime,jdbcType=TIMESTAMP},
+      carID = #{carID,jdbcType=INTEGER},
+      couponCode = #{couponCode,jdbcType=VARCHAR},
+      isArrange = #{isArrange,jdbcType=VARCHAR},
+      flightNO = #{flightNO,jdbcType=VARCHAR},
+      orderStatus = #{orderStatus,jdbcType=VARCHAR},
+      memo = #{memo,jdbcType=VARCHAR},
+      creatTime = #{creatTime,jdbcType=TIMESTAMP},
+      lastUpdate = #{lastUpdate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

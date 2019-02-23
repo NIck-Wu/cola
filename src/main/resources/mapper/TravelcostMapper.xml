@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mapper.TravelcostMapper" >
+  <resultMap id="BaseResultMap" type="com.entity.Travelcost" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="startDistance" property="startDistance" jdbcType="INTEGER" />
+    <result column="endDistance" property="endDistance" jdbcType="INTEGER" />
+    <result column="unitPrice" property="unitPrice" jdbcType="DECIMAL" />
+    <result column="totalPrice" property="totalPrice" jdbcType="DECIMAL" />
+    <result column="lowest" property="lowest" jdbcType="VARCHAR" />
+    <result column="level" property="level" jdbcType="INTEGER" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
+    <result column="creatTime" property="creatTime" jdbcType="TIMESTAMP" />
+    <result column="lastUpdate" property="lastUpdate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, startDistance, endDistance, unitPrice, totalPrice, lowest, level, creator, creatTime, 
+    lastUpdate
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from travelcost
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from travelcost
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.entity.Travelcost" >
+    insert into travelcost (id, startDistance, endDistance, 
+      unitPrice, totalPrice, lowest, 
+      level, creator, creatTime, 
+      lastUpdate)
+    values (#{id,jdbcType=INTEGER}, #{startDistance,jdbcType=INTEGER}, #{endDistance,jdbcType=INTEGER}, 
+      #{unitPrice,jdbcType=DECIMAL}, #{totalPrice,jdbcType=DECIMAL}, #{lowest,jdbcType=VARCHAR}, 
+      #{level,jdbcType=INTEGER}, #{creator,jdbcType=VARCHAR}, #{creatTime,jdbcType=TIMESTAMP}, 
+      #{lastUpdate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.entity.Travelcost" >
+    insert into travelcost
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="startDistance != null" >
+        startDistance,
+      </if>
+      <if test="endDistance != null" >
+        endDistance,
+      </if>
+      <if test="unitPrice != null" >
+        unitPrice,
+      </if>
+      <if test="totalPrice != null" >
+        totalPrice,
+      </if>
+      <if test="lowest != null" >
+        lowest,
+      </if>
+      <if test="level != null" >
+        level,
+      </if>
+      <if test="creator != null" >
+        creator,
+      </if>
+      <if test="creatTime != null" >
+        creatTime,
+      </if>
+      <if test="lastUpdate != null" >
+        lastUpdate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="startDistance != null" >
+        #{startDistance,jdbcType=INTEGER},
+      </if>
+      <if test="endDistance != null" >
+        #{endDistance,jdbcType=INTEGER},
+      </if>
+      <if test="unitPrice != null" >
+        #{unitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="totalPrice != null" >
+        #{totalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="lowest != null" >
+        #{lowest,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null" >
+        #{level,jdbcType=INTEGER},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="creatTime != null" >
+        #{creatTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdate != null" >
+        #{lastUpdate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.entity.Travelcost" >
+    update travelcost
+    <set >
+      <if test="startDistance != null" >
+        startDistance = #{startDistance,jdbcType=INTEGER},
+      </if>
+      <if test="endDistance != null" >
+        endDistance = #{endDistance,jdbcType=INTEGER},
+      </if>
+      <if test="unitPrice != null" >
+        unitPrice = #{unitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="totalPrice != null" >
+        totalPrice = #{totalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="lowest != null" >
+        lowest = #{lowest,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null" >
+        level = #{level,jdbcType=INTEGER},
+      </if>
+      <if test="creator != null" >
+        creator = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="creatTime != null" >
+        creatTime = #{creatTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdate != null" >
+        lastUpdate = #{lastUpdate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.entity.Travelcost" >
+    update travelcost
+    set startDistance = #{startDistance,jdbcType=INTEGER},
+      endDistance = #{endDistance,jdbcType=INTEGER},
+      unitPrice = #{unitPrice,jdbcType=DECIMAL},
+      totalPrice = #{totalPrice,jdbcType=DECIMAL},
+      lowest = #{lowest,jdbcType=VARCHAR},
+      level = #{level,jdbcType=INTEGER},
+      creator = #{creator,jdbcType=VARCHAR},
+      creatTime = #{creatTime,jdbcType=TIMESTAMP},
+      lastUpdate = #{lastUpdate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mapper.DriveMapper" >
+  <resultMap id="BaseResultMap" type="com.entity.Drive" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="imageURL" property="imageURL" jdbcType="VARCHAR" />
+    <result column="phoneNumberOne" property="phoneNumberOne" jdbcType="VARCHAR" />
+    <result column="phoneNumberTwo" property="phoneNumberTwo" jdbcType="VARCHAR" />
+    <result column="companyCode" property="companyCode" jdbcType="VARCHAR" />
+    <result column="carID" property="carID" jdbcType="INTEGER" />
+    <result column="carColor" property="carColor" jdbcType="VARCHAR" />
+    <result column="carLicense" property="carLicense" jdbcType="VARCHAR" />
+    <result column="creatTime" property="creatTime" jdbcType="TIMESTAMP" />
+    <result column="lastUpdate" property="lastUpdate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, imageURL, phoneNumberOne, phoneNumberTwo, companyCode, carID, carColor, 
+    carLicense, creatTime, lastUpdate
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from drive
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from drive
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.entity.Drive" >
+    insert into drive (id, name, imageURL, 
+      phoneNumberOne, phoneNumberTwo, companyCode, 
+      carID, carColor, carLicense, 
+      creatTime, lastUpdate)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{imageURL,jdbcType=VARCHAR}, 
+      #{phoneNumberOne,jdbcType=VARCHAR}, #{phoneNumberTwo,jdbcType=VARCHAR}, #{companyCode,jdbcType=VARCHAR}, 
+      #{carID,jdbcType=INTEGER}, #{carColor,jdbcType=VARCHAR}, #{carLicense,jdbcType=VARCHAR}, 
+      #{creatTime,jdbcType=TIMESTAMP}, #{lastUpdate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.entity.Drive" >
+    insert into drive
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="imageURL != null" >
+        imageURL,
+      </if>
+      <if test="phoneNumberOne != null" >
+        phoneNumberOne,
+      </if>
+      <if test="phoneNumberTwo != null" >
+        phoneNumberTwo,
+      </if>
+      <if test="companyCode != null" >
+        companyCode,
+      </if>
+      <if test="carID != null" >
+        carID,
+      </if>
+      <if test="carColor != null" >
+        carColor,
+      </if>
+      <if test="carLicense != null" >
+        carLicense,
+      </if>
+      <if test="creatTime != null" >
+        creatTime,
+      </if>
+      <if test="lastUpdate != null" >
+        lastUpdate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="imageURL != null" >
+        #{imageURL,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNumberOne != null" >
+        #{phoneNumberOne,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNumberTwo != null" >
+        #{phoneNumberTwo,jdbcType=VARCHAR},
+      </if>
+      <if test="companyCode != null" >
+        #{companyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="carID != null" >
+        #{carID,jdbcType=INTEGER},
+      </if>
+      <if test="carColor != null" >
+        #{carColor,jdbcType=VARCHAR},
+      </if>
+      <if test="carLicense != null" >
+        #{carLicense,jdbcType=VARCHAR},
+      </if>
+      <if test="creatTime != null" >
+        #{creatTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdate != null" >
+        #{lastUpdate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.entity.Drive" >
+    update drive
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="imageURL != null" >
+        imageURL = #{imageURL,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNumberOne != null" >
+        phoneNumberOne = #{phoneNumberOne,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNumberTwo != null" >
+        phoneNumberTwo = #{phoneNumberTwo,jdbcType=VARCHAR},
+      </if>
+      <if test="companyCode != null" >
+        companyCode = #{companyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="carID != null" >
+        carID = #{carID,jdbcType=INTEGER},
+      </if>
+      <if test="carColor != null" >
+        carColor = #{carColor,jdbcType=VARCHAR},
+      </if>
+      <if test="carLicense != null" >
+        carLicense = #{carLicense,jdbcType=VARCHAR},
+      </if>
+      <if test="creatTime != null" >
+        creatTime = #{creatTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdate != null" >
+        lastUpdate = #{lastUpdate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.entity.Drive" >
+    update drive
+    set name = #{name,jdbcType=VARCHAR},
+      imageURL = #{imageURL,jdbcType=VARCHAR},
+      phoneNumberOne = #{phoneNumberOne,jdbcType=VARCHAR},
+      phoneNumberTwo = #{phoneNumberTwo,jdbcType=VARCHAR},
+      companyCode = #{companyCode,jdbcType=VARCHAR},
+      carID = #{carID,jdbcType=INTEGER},
+      carColor = #{carColor,jdbcType=VARCHAR},
+      carLicense = #{carLicense,jdbcType=VARCHAR},
+      creatTime = #{creatTime,jdbcType=TIMESTAMP},
+      lastUpdate = #{lastUpdate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mapper.CouponMapper" >
+  <resultMap id="BaseResultMap" type="com.entity.Coupon" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="couponCode" property="couponCode" jdbcType="VARCHAR" />
+    <result column="couponName" property="couponName" jdbcType="VARCHAR" />
+    <result column="companyCode" property="companyCode" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="DECIMAL" />
+    <result column="isValid" property="isValid" jdbcType="VARCHAR" />
+    <result column="useStartTime" property="useStartTime" jdbcType="TIMESTAMP" />
+    <result column="useEndTime" property="useEndTime" jdbcType="TIMESTAMP" />
+    <result column="creatTime" property="creatTime" jdbcType="TIMESTAMP" />
+    <result column="lastUpdate" property="lastUpdate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, couponCode, couponName, companyCode, price, isValid, useStartTime, useEndTime, 
+    creatTime, lastUpdate
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from coupon
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from coupon
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.entity.Coupon" >
+    insert into coupon (id, couponCode, couponName, 
+      companyCode, price, isValid, 
+      useStartTime, useEndTime, creatTime, 
+      lastUpdate)
+    values (#{id,jdbcType=INTEGER}, #{couponCode,jdbcType=VARCHAR}, #{couponName,jdbcType=VARCHAR}, 
+      #{companyCode,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, #{isValid,jdbcType=VARCHAR}, 
+      #{useStartTime,jdbcType=TIMESTAMP}, #{useEndTime,jdbcType=TIMESTAMP}, #{creatTime,jdbcType=TIMESTAMP}, 
+      #{lastUpdate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.entity.Coupon" >
+    insert into coupon
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="couponCode != null" >
+        couponCode,
+      </if>
+      <if test="couponName != null" >
+        couponName,
+      </if>
+      <if test="companyCode != null" >
+        companyCode,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="isValid != null" >
+        isValid,
+      </if>
+      <if test="useStartTime != null" >
+        useStartTime,
+      </if>
+      <if test="useEndTime != null" >
+        useEndTime,
+      </if>
+      <if test="creatTime != null" >
+        creatTime,
+      </if>
+      <if test="lastUpdate != null" >
+        lastUpdate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="couponCode != null" >
+        #{couponCode,jdbcType=VARCHAR},
+      </if>
+      <if test="couponName != null" >
+        #{couponName,jdbcType=VARCHAR},
+      </if>
+      <if test="companyCode != null" >
+        #{companyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="isValid != null" >
+        #{isValid,jdbcType=VARCHAR},
+      </if>
+      <if test="useStartTime != null" >
+        #{useStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="useEndTime != null" >
+        #{useEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creatTime != null" >
+        #{creatTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdate != null" >
+        #{lastUpdate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.entity.Coupon" >
+    update coupon
+    <set >
+      <if test="couponCode != null" >
+        couponCode = #{couponCode,jdbcType=VARCHAR},
+      </if>
+      <if test="couponName != null" >
+        couponName = #{couponName,jdbcType=VARCHAR},
+      </if>
+      <if test="companyCode != null" >
+        companyCode = #{companyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="isValid != null" >
+        isValid = #{isValid,jdbcType=VARCHAR},
+      </if>
+      <if test="useStartTime != null" >
+        useStartTime = #{useStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="useEndTime != null" >
+        useEndTime = #{useEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creatTime != null" >
+        creatTime = #{creatTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdate != null" >
+        lastUpdate = #{lastUpdate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.entity.Coupon" >
+    update coupon
+    set couponCode = #{couponCode,jdbcType=VARCHAR},
+      couponName = #{couponName,jdbcType=VARCHAR},
+      companyCode = #{companyCode,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DECIMAL},
+      isValid = #{isValid,jdbcType=VARCHAR},
+      useStartTime = #{useStartTime,jdbcType=TIMESTAMP},
+      useEndTime = #{useEndTime,jdbcType=TIMESTAMP},
+      creatTime = #{creatTime,jdbcType=TIMESTAMP},
+      lastUpdate = #{lastUpdate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
