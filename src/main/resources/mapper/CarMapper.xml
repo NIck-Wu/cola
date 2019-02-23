@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mapper.CarMapper" >
+  <resultMap id="BaseResultMap" type="com.entity.Car" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="carName" property="carName" jdbcType="VARCHAR" />
+    <result column="carType" property="carType" jdbcType="VARCHAR" />
+    <result column="carImageURL" property="carImageURL" jdbcType="VARCHAR" />
+    <result column="carBrand" property="carBrand" jdbcType="VARCHAR" />
+    <result column="carModel" property="carModel" jdbcType="VARCHAR" />
+    <result column="additionalPrice" property="additionalPrice" jdbcType="DECIMAL" />
+    <result column="seatingCapacity" property="seatingCapacity" jdbcType="INTEGER" />
+    <result column="baggageQuantity" property="baggageQuantity" jdbcType="INTEGER" />
+    <result column="carDesc" property="carDesc" jdbcType="VARCHAR" />
+    <result column="creatTime" property="creatTime" jdbcType="TIMESTAMP" />
+    <result column="lastUpdate" property="lastUpdate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, carName, carType, carImageURL, carBrand, carModel, additionalPrice, seatingCapacity, 
+    baggageQuantity, carDesc, creatTime, lastUpdate
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from car
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from car
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.entity.Car" >
+    insert into car (id, carName, carType, 
+      carImageURL, carBrand, carModel, 
+      additionalPrice, seatingCapacity, baggageQuantity, 
+      carDesc, creatTime, lastUpdate
+      )
+    values (#{id,jdbcType=INTEGER}, #{carName,jdbcType=VARCHAR}, #{carType,jdbcType=VARCHAR}, 
+      #{carImageURL,jdbcType=VARCHAR}, #{carBrand,jdbcType=VARCHAR}, #{carModel,jdbcType=VARCHAR}, 
+      #{additionalPrice,jdbcType=DECIMAL}, #{seatingCapacity,jdbcType=INTEGER}, #{baggageQuantity,jdbcType=INTEGER}, 
+      #{carDesc,jdbcType=VARCHAR}, #{creatTime,jdbcType=TIMESTAMP}, #{lastUpdate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.entity.Car" >
+    insert into car
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="carName != null" >
+        carName,
+      </if>
+      <if test="carType != null" >
+        carType,
+      </if>
+      <if test="carImageURL != null" >
+        carImageURL,
+      </if>
+      <if test="carBrand != null" >
+        carBrand,
+      </if>
+      <if test="carModel != null" >
+        carModel,
+      </if>
+      <if test="additionalPrice != null" >
+        additionalPrice,
+      </if>
+      <if test="seatingCapacity != null" >
+        seatingCapacity,
+      </if>
+      <if test="baggageQuantity != null" >
+        baggageQuantity,
+      </if>
+      <if test="carDesc != null" >
+        carDesc,
+      </if>
+      <if test="creatTime != null" >
+        creatTime,
+      </if>
+      <if test="lastUpdate != null" >
+        lastUpdate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="carName != null" >
+        #{carName,jdbcType=VARCHAR},
+      </if>
+      <if test="carType != null" >
+        #{carType,jdbcType=VARCHAR},
+      </if>
+      <if test="carImageURL != null" >
+        #{carImageURL,jdbcType=VARCHAR},
+      </if>
+      <if test="carBrand != null" >
+        #{carBrand,jdbcType=VARCHAR},
+      </if>
+      <if test="carModel != null" >
+        #{carModel,jdbcType=VARCHAR},
+      </if>
+      <if test="additionalPrice != null" >
+        #{additionalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="seatingCapacity != null" >
+        #{seatingCapacity,jdbcType=INTEGER},
+      </if>
+      <if test="baggageQuantity != null" >
+        #{baggageQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="carDesc != null" >
+        #{carDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="creatTime != null" >
+        #{creatTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdate != null" >
+        #{lastUpdate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.entity.Car" >
+    update car
+    <set >
+      <if test="carName != null" >
+        carName = #{carName,jdbcType=VARCHAR},
+      </if>
+      <if test="carType != null" >
+        carType = #{carType,jdbcType=VARCHAR},
+      </if>
+      <if test="carImageURL != null" >
+        carImageURL = #{carImageURL,jdbcType=VARCHAR},
+      </if>
+      <if test="carBrand != null" >
+        carBrand = #{carBrand,jdbcType=VARCHAR},
+      </if>
+      <if test="carModel != null" >
+        carModel = #{carModel,jdbcType=VARCHAR},
+      </if>
+      <if test="additionalPrice != null" >
+        additionalPrice = #{additionalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="seatingCapacity != null" >
+        seatingCapacity = #{seatingCapacity,jdbcType=INTEGER},
+      </if>
+      <if test="baggageQuantity != null" >
+        baggageQuantity = #{baggageQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="carDesc != null" >
+        carDesc = #{carDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="creatTime != null" >
+        creatTime = #{creatTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdate != null" >
+        lastUpdate = #{lastUpdate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.entity.Car" >
+    update car
+    set carName = #{carName,jdbcType=VARCHAR},
+      carType = #{carType,jdbcType=VARCHAR},
+      carImageURL = #{carImageURL,jdbcType=VARCHAR},
+      carBrand = #{carBrand,jdbcType=VARCHAR},
+      carModel = #{carModel,jdbcType=VARCHAR},
+      additionalPrice = #{additionalPrice,jdbcType=DECIMAL},
+      seatingCapacity = #{seatingCapacity,jdbcType=INTEGER},
+      baggageQuantity = #{baggageQuantity,jdbcType=INTEGER},
+      carDesc = #{carDesc,jdbcType=VARCHAR},
+      creatTime = #{creatTime,jdbcType=TIMESTAMP},
+      lastUpdate = #{lastUpdate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

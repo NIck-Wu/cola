@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mapper.AdminMapper" >
+  <resultMap id="BaseResultMap" type="com.entity.Admin" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="sysUserCode" property="sysUserCode" jdbcType="VARCHAR" />
+    <result column="sysUserName" property="sysUserName" jdbcType="VARCHAR" />
+    <result column="passWord" property="passWord" jdbcType="VARCHAR" />
+    <result column="phoneNumber" property="phoneNumber" jdbcType="VARCHAR" />
+    <result column="companyCode" property="companyCode" jdbcType="VARCHAR" />
+    <result column="imageURL" property="imageURL" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="VARCHAR" />
+    <result column="creatTime" property="creatTime" jdbcType="TIMESTAMP" />
+    <result column="lastUpdate" property="lastUpdate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, sysUserCode, sysUserName, passWord, phoneNumber, companyCode, imageURL, sex, 
+    creatTime, lastUpdate
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from admin
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from admin
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.entity.Admin" >
+    insert into admin (id, sysUserCode, sysUserName, 
+      passWord, phoneNumber, companyCode, 
+      imageURL, sex, creatTime, 
+      lastUpdate)
+    values (#{id,jdbcType=INTEGER}, #{sysUserCode,jdbcType=VARCHAR}, #{sysUserName,jdbcType=VARCHAR}, 
+      #{passWord,jdbcType=VARCHAR}, #{phoneNumber,jdbcType=VARCHAR}, #{companyCode,jdbcType=VARCHAR}, 
+      #{imageURL,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{creatTime,jdbcType=TIMESTAMP}, 
+      #{lastUpdate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.entity.Admin" >
+    insert into admin
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="sysUserCode != null" >
+        sysUserCode,
+      </if>
+      <if test="sysUserName != null" >
+        sysUserName,
+      </if>
+      <if test="passWord != null" >
+        passWord,
+      </if>
+      <if test="phoneNumber != null" >
+        phoneNumber,
+      </if>
+      <if test="companyCode != null" >
+        companyCode,
+      </if>
+      <if test="imageURL != null" >
+        imageURL,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="creatTime != null" >
+        creatTime,
+      </if>
+      <if test="lastUpdate != null" >
+        lastUpdate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="sysUserCode != null" >
+        #{sysUserCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sysUserName != null" >
+        #{sysUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="passWord != null" >
+        #{passWord,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNumber != null" >
+        #{phoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="companyCode != null" >
+        #{companyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="imageURL != null" >
+        #{imageURL,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="creatTime != null" >
+        #{creatTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdate != null" >
+        #{lastUpdate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.entity.Admin" >
+    update admin
+    <set >
+      <if test="sysUserCode != null" >
+        sysUserCode = #{sysUserCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sysUserName != null" >
+        sysUserName = #{sysUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="passWord != null" >
+        passWord = #{passWord,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNumber != null" >
+        phoneNumber = #{phoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="companyCode != null" >
+        companyCode = #{companyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="imageURL != null" >
+        imageURL = #{imageURL,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="creatTime != null" >
+        creatTime = #{creatTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdate != null" >
+        lastUpdate = #{lastUpdate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.entity.Admin" >
+    update admin
+    set sysUserCode = #{sysUserCode,jdbcType=VARCHAR},
+      sysUserName = #{sysUserName,jdbcType=VARCHAR},
+      passWord = #{passWord,jdbcType=VARCHAR},
+      phoneNumber = #{phoneNumber,jdbcType=VARCHAR},
+      companyCode = #{companyCode,jdbcType=VARCHAR},
+      imageURL = #{imageURL,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=VARCHAR},
+      creatTime = #{creatTime,jdbcType=TIMESTAMP},
+      lastUpdate = #{lastUpdate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
