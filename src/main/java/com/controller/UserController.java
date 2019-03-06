@@ -1,21 +1,24 @@
 package com.controller;
 
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.entity.User;
+import com.redis.RedisUtil;
 import com.server.UserService;
 
 @RestController
-@RequestMapping("/api/user/user")
+@RequestMapping("/api/user/user/")
 public class UserController {
-
-	@Autowired
-	private StringRedisTemplate template;
+	
+	private final static int ExpireTime = 60;   // redis中存储的过期时间60s
+	@Resource
+    private RedisUtil redisUtil;
 
 	@Autowired
 	private UserService userService;
@@ -28,14 +31,13 @@ public class UserController {
 	 */
 	@RequestMapping(value = "find", method = RequestMethod.POST)
 	public String find(@RequestBody User user) {
-		// 没有这个key
-		if (!template.hasKey(user.getId().toString())) {
+		if (!redisUtil.hasKey(user.getId().toString())) {
 			User userQuery = userService.findById(user);
-			template.opsForValue().append(user.getId().toString(), String.valueOf(userQuery));
+			redisUtil.set(user.getId().toString(), String.valueOf(userQuery), ExpireTime);
 			System.out.println("get data from Mysql ");
 			return String.valueOf(userQuery);
 		}
-		String val = template.opsForValue().get(user.getId().toString());// 根据key获取缓存中的val
+		String val = (String) redisUtil.get(user.getId().toString());
 		System.out.println("get data from redis ");
 		return val;
 	}
