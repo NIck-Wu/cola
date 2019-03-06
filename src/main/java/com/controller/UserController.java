@@ -9,16 +9,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.entity.User;
+import com.rabbitmq.Send.Sender;
 import com.redis.RedisUtil;
 import com.server.UserService;
 
 @RestController
 @RequestMapping("/api/user/user/")
 public class UserController {
-	
-	private final static int ExpireTime = 60;   // redis中存储的过期时间60s
+
+	private final static int ExpireTime = 60; // redis中存储的过期时间60s
 	@Resource
-    private RedisUtil redisUtil;
+	private RedisUtil redisUtil;
+	@Resource
+	private Sender sender;
 
 	@Autowired
 	private UserService userService;
@@ -41,4 +44,16 @@ public class UserController {
 		System.out.println("get data from redis ");
 		return val;
 	}
+
+	/**
+	 * 測試RabbitMq
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "rabbitmqDead", method = RequestMethod.POST)
+	public String rabbitmqDead() {
+		sender.sendToDeadQueue();
+		return "OK";
+	}
+
 }
