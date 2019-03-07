@@ -52,7 +52,7 @@ public class UserController {
 	 */
 	@RequestMapping(value = "rabbitmqDead", method = RequestMethod.POST)
 	public String rabbitmqDead() {
-		sender.sendToDeadQueue();
+		sender.creatDeadQueue();
 		return "OK";
 	}
 

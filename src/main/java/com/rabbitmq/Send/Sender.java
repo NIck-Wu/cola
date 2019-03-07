@@ -26,8 +26,8 @@ public class Sender {
 	 * 
 	 * @return
 	 */
-	@RequestMapping(value = "sendToDeadQueue", method = RequestMethod.POST)
-	public String sendToDeadQueue() {
+	@RequestMapping(value = "creatDeadQueue", method = RequestMethod.POST)
+	public String creatDeadQueue() {
 		
 		CorrelationData correlationData = new CorrelationData(UUID.randomUUID().toString());
 		MessagePostProcessor messagePostProcessor = message -> {
