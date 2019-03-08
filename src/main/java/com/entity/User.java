@@ -1,9 +1,15 @@
 package com.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class User {
-    private Integer id;
+public class User implements Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private Integer id;
 
     private String name;
 
@@ -16,9 +22,9 @@ public class User {
     private String companyCode;
 
     private String wxIcon;
-
+//    @JSONField(format="yyyy-MM-dd HH:mm:ss")
     private Date creatTime;
-
+//    @JSONField(format="yyyy-MM-dd HH:mm:ss")
     private Date lastUpdate;
 
     public Integer getId() {
