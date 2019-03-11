@@ -1,5 +1,7 @@
 package com.server;
 
+import java.util.List;
+
 import com.entity.User;
 
 public interface UserService {
@@ -11,4 +13,11 @@ public interface UserService {
 	 * @return
 	 */
 	public User findById(User user);
+
+	/**
+	 * 列表
+	 * 
+	 * @return
+	 */
+	public List<User> list();
 }
