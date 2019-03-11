@@ -1,6 +1,7 @@
 package com.server.impl;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,6 +37,12 @@ public class UserServiceImpl implements UserService {
 
 		return userMapper.selectByPrimaryKey(user.getId());
 
+	}
+
+	@Override
+	public List<User> list() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
