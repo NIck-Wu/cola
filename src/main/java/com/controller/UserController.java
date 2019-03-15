@@ -8,11 +8,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ResponseResult;
-import com.alibaba.fastjson.JSONObject;
 import com.constants.ErrorCodeEnum;
 import com.entity.User;
 import com.rabbitmq.Send.Sender;
+import com.respons.ResponseResult;
 import com.server.UserService;
 
 @RestController
@@ -40,19 +39,6 @@ public class UserController {
 				ErrorCodeEnum.SUCCESS.getDesc().toString(), userQuery);
 	}
 
-	/**
-	 * 測試RabbitMq
-	 * 
-	 * @return
-	 */
-	@RequestMapping(value = "rabbitmqDead", method = RequestMethod.POST)
-	public boolean rabbitmqDead() {
-		JSONObject json = new JSONObject();
-		json.put("userID", 1);
-		 return sender.creatDeadTask(json);
-		
-	}
-	
 	/**
 	 * 新增
 	 * 

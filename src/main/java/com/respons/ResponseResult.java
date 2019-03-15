@@ -1,4 +1,4 @@
-package com;
+package com.respons;
 
 import java.io.Serializable;
 import java.util.UUID;
