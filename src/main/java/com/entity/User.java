@@ -22,9 +22,9 @@ public class User implements Serializable{
     private String companyCode;
 
     private String wxIcon;
-//    @JSONField(format="yyyy-MM-dd HH:mm:ss")
+    
     private Date creatTime;
-//    @JSONField(format="yyyy-MM-dd HH:mm:ss")
+    
     private Date lastUpdate;
 
     public Integer getId() {

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ResponseResult;
+import com.alibaba.fastjson.JSONObject;
 import com.constants.ErrorCodeEnum;
 import com.entity.User;
 import com.rabbitmq.Send.Sender;
@@ -32,7 +33,9 @@ public class UserController {
 	 */
 	@RequestMapping(value = "find", method = RequestMethod.POST)
 	public ResponseResult<User> find(@RequestBody User user) throws Exception {
+		
 		User userQuery = userService.findById(user);
+		
 		return new ResponseResult<User>(ErrorCodeEnum.SUCCESS.getCode().toString(),
 				ErrorCodeEnum.SUCCESS.getDesc().toString(), userQuery);
 	}
@@ -43,9 +46,24 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping(value = "rabbitmqDead", method = RequestMethod.POST)
-	public String rabbitmqDead() {
-		sender.creatDeadQueue();
-		return "OK";
+	public boolean rabbitmqDead() {
+		JSONObject json = new JSONObject();
+		json.put("userID", 1);
+		 return sender.creatDeadTask(json);
+		
 	}
-
+	
+	/**
+	 * 新增
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "save", method = RequestMethod.POST)
+	public ResponseResult<User> save(@RequestBody User user) throws Exception {
+		
+		userService.save(user);
+		
+		return new ResponseResult<>(ErrorCodeEnum.SUCCESS.getCode().toString(),
+				ErrorCodeEnum.SUCCESS.getDesc().toString(), user);
+	}
 }

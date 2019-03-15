@@ -22,17 +22,14 @@ import java.util.Map;
  */
 @Configuration
 public class RabbitConfig {
-	/**
-	 * 死信队列 交换机标识符
-	 */
-	private static final String DEAD_LETTER_QUEUE_KEY = "x-dead-letter-exchange";
-	/**
-	 * 死信队列交换机绑定键标识符
-	 */
-	private static final String DEAD_LETTER_ROUTING_KEY = "x-dead-letter-routing-key";
 
 	@Resource
 	private RabbitTemplate rabbitTemplate;
+	
+	/** 死信队列 交换机 */
+	private static final String DEAD_LETTER_QUEUE_KEY = "x-dead-letter-exchange";
+	/**  死信队列交换机绑定键 */
+	private static final String DEAD_LETTER_ROUTING_KEY = "x-dead-letter-routing-key";
 
 	/**
 	 * 定制化amqp模版 可根据需要定制多个
@@ -70,14 +67,15 @@ public class RabbitConfig {
 	}
 
 	/*
-	 * ----------------------------------------------------------------------------
-	 * Direct exchange
-	 * test-------------------------------------------------------------------------
-	 * --
+	 * ------------------------------------------------
+	 * Direct exchange（直连交换机）
+	 * 交换机和队列一一对应绑定 不需要用key约束 
 	 */
 
 	/**
-	 * 声明直连交换机 支持持久化.
+	 * 声明一个直连交换机,并设置支持持久化。
+	 * durable(true)：支付 durable(false)不支持
+	 * 交换机名称：DIRECT_EXCHANGE
 	 *
 	 * @return the exchange
 	 */
@@ -88,7 +86,7 @@ public class RabbitConfig {
 
 	/**
 	 * 声明一个队列 支持持久化.
-	 *
+	 * 隊列名称：DIRECT_QUEUE
 	 * @return the queue
 	 */
 	@Bean("directQueue")
@@ -99,8 +97,9 @@ public class RabbitConfig {
 	/**
 	 * 通过绑定键 将指定队列绑定到一个指定的交换机 .
 	 *
-	 * @param queue    the queue
-	 * @param exchange the exchange
+	 * @param queue    the DIRECT_QUEUE
+	 * @param exchange the DIRECT_EXCHANGE
+	 * @param key      the DIRECT_ROUTING_KEY
 	 * @return the binding
 	 */
 	@Bean
@@ -111,14 +110,14 @@ public class RabbitConfig {
 
 	/*
 	 * ----------------------------------------------------------------------------
-	 * Fanout exchange
-	 * test-------------------------------------------------------------------------
-	 * --
+	 * Fanout exchange  （扇形交换机）
+	 * 一个路由可以绑定多个消息队列。
+	 *  一条消息经过交换机会转发到所有绑定的队列上
 	 */
 
 	/**
-	 * 声明 fanout 交换机.
-	 *
+	 * 声明 一个FANOUT路由.並且支持持久化
+	 * 路由名稱：FANOUT_EXCHANGE
 	 * @return the exchange
 	 */
 	@Bean("fanoutExchange")
@@ -128,7 +127,8 @@ public class RabbitConfig {
 
 	/**
 	 * Fanout queue A.
-	 *
+	 * 声明一个FANOUT队列A, 队列名称FANOUT_QUEUE_A
+	 *  
 	 * @return the queue
 	 */
 	@Bean("fanoutQueueA")
@@ -138,7 +138,7 @@ public class RabbitConfig {
 
 	/**
 	 * Fanout queue B .
-	 *
+	 * 声明一个FANOUT队列B, 队列名称FANOUT_QUEUE_FANOUT_QUEUE_B
 	 * @return the queue
 	 */
 	@Bean("fanoutQueueB")
@@ -172,12 +172,19 @@ public class RabbitConfig {
 		return BindingBuilder.bind(queue).to(fanoutExchange);
 	}
 
-	/*----------------------------------------------------------------------------deadletter queue------------------------------------------------------------------------------*/
+	/**
+	 * ----------------------------------------------------------
+	 * 死信队列 
+	 * 1.死信队列跟交换机类型没有关系 不一定为directExchange 不影响该类型交换机的特性.
+	 * 2.死信队列实质是将过期的消息转发到绑定的queue上,实现再次消费
+	 * ----------------------------------------------------------
+	 */
 
 	/**
-	 * 死信队列跟交换机类型没有关系 不一定为directExchange 不影响该类型交换机的特性.
-	 *
-	 * @return the exchange
+	 * 声明一个死信路由,支持持久化
+	 * 死信路由名稱：DL_EXCHANGE
+	 * deadLetterExchange
+	 * @return
 	 */
 	@Bean("deadLetterExchange")
 	public Exchange deadLetterExchange() {
@@ -185,7 +192,11 @@ public class RabbitConfig {
 	}
 
 	/**
-	 * 声明一个死信队列. x-dead-letter-exchange 对应 死信交换机 x-dead-letter-routing-key 对应 死信队列
+	 * 声明一个死信队列. 
+	 * 死信队列名称：deadLetterQueue
+	 * 死信路由名称：DL_EXCHANGE
+	 * 綁定KEY：KEY_R
+	 * x-dead-letter-exchange 对应 死信交换机 x-dead-letter-routing-key 对应 死信队列
 	 *
 	 * @return the queue
 	 */
@@ -200,7 +211,8 @@ public class RabbitConfig {
 	}
 
 	/**
-	 * 定义死信队列转发队列.
+	 * 聲明一個死信隊列轉發到新的消息隊列
+	 * 转发后的消息队列名称：REDIRECT_QUEUE
 	 *
 	 * @return the queue
 	 */
@@ -210,19 +222,20 @@ public class RabbitConfig {
 	}
 
 	/**
-	 * 死信路由通过 DL_KEY 绑定键绑定到死信队列上.
+	 * 通过key将死信路由绑定到死信队列
 	 *
 	 * @return the binding
 	 */
 	@Bean
 	public Binding deadLetterBinding() {
 		return new Binding("DL_QUEUE", Binding.DestinationType.QUEUE, "DL_EXCHANGE", "DL_KEY", null);
-
+		// 隊列名稱 綁定類型 路由名稱  key 參數
+		
 	}
 
 	/**
-	 * 死信路由通过 KEY_R 绑定键绑定到死信队列上.
-	 *
+	 *  通过key将死信路由绑定到死信队列并设置转发到转发的队列上
+	 *  
 	 * @return the binding
 	 */
 	@Bean

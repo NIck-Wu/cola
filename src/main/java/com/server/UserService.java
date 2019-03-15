@@ -20,4 +20,12 @@ public interface UserService {
 	 * @return
 	 */
 	public List<User> list();
+
+	/**
+	 * 新增
+	 * 
+	 * @param user
+	 * @return
+	 */
+	public User save(User user);
 }

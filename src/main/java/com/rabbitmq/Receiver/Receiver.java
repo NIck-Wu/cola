@@ -1,13 +1,18 @@
 package com.rabbitmq.Receiver;
 
+import com.alibaba.fastjson.JSONObject;
+import com.entity.User;
+import com.mapper.UserMapper;
 import com.rabbitmq.client.Channel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -20,6 +25,9 @@ import java.util.Date;
 @Component
 public class Receiver {
 	private static final Logger log = LoggerFactory.getLogger(Receiver.class);
+	SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd HH:mm:ss" );
+	@Autowired
+	private UserMapper userMapper;
 
 	/**
 	 * FANOUT广播队列监听一.
@@ -61,7 +69,7 @@ public class Receiver {
 	}
 
 	/**
-	 * 监听替补队列 来验证死信.
+	 * 监听替补队列 来验证死信.（死信队列转发后实际消费的队列）
 	 *
 	 * @param message the message
 	 * @param channel the channel
@@ -70,7 +78,13 @@ public class Receiver {
 	@RabbitListener(queues = { "REDIRECT_QUEUE" })
 	public void redirect(Message message, Channel channel) throws IOException {
 		channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
-		log.info("dead message comsum time is "+ new Date());
-		log.info("dead message comsum content is "+ message.getBody().toString());
+		byte[] body = message.getBody();
+		String requestString = new String(body);
+		JSONObject requestJson=JSONObject.parseObject(requestString);
+		User user = userMapper.selectByPrimaryKey(Integer.parseInt(requestJson.getString("userID")));
+		if(null!=user) {
+			userMapper.deleteByPrimaryKey(Integer.parseInt(requestJson.getString("userID")));
+			System.out.println("消息處理時間： "+ sdf.format(new Date())+", 消息内容为 ："+requestString+", 刪除用戶");
+		}
 	}
 }
