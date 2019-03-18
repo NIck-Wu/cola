@@ -16,7 +16,7 @@ public class ResponseResult<T> implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 
-	private String requestId = UUID.randomUUID().toString();
+	private String requestId = null;
 	
 	private String errorCode = ErrorCodeEnum.SUCCESS.getCode();
 	
