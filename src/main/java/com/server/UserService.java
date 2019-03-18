@@ -28,4 +28,10 @@ public interface UserService {
 	 * @return
 	 */
 	public User save(User user);
+	
+	/**
+	 * 删除
+	 * @param user
+	 */
+	public void delete(User user); 
 }

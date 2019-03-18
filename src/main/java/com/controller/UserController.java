@@ -52,4 +52,18 @@ public class UserController {
 		return new ResponseResult<>(ErrorCodeEnum.SUCCESS.getCode().toString(),
 				ErrorCodeEnum.SUCCESS.getDesc().toString(), user);
 	}
+	
+	/**
+	 * 新增
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "delete", method = RequestMethod.POST)
+	public ResponseResult<User> delete(@RequestBody User user) throws Exception {
+		
+		userService.save(user);
+		
+		return new ResponseResult<>(ErrorCodeEnum.SUCCESS.getCode().toString(),
+				ErrorCodeEnum.SUCCESS.getDesc().toString(), user);
+	}
 }

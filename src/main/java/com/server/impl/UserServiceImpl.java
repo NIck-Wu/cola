@@ -5,7 +5,6 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,7 +27,7 @@ import com.server.UserService;
 @Transactional
 public class UserServiceImpl implements UserService {
 	@Resource
-	private RedisUtil rdRedisUtil;
+	private RedisUtil redisUtil;
 	@Resource
 	private Sender sender; // 死信队列發送者
 	@Autowired
@@ -42,13 +41,13 @@ public class UserServiceImpl implements UserService {
 	 */
 	@Override
 	public User findById(User user) {
-		Object queryObj = rdRedisUtil.get(user.getId().toString());
+		Object queryObj = redisUtil.get(user.getId().toString());
 		if (null == queryObj) {
 			User userQuery = userMapper.selectByPrimaryKey(user.getId());
 			if (null == userQuery) {
 				return userQuery;
 			}
-			rdRedisUtil.set(user.getId().toString(), userQuery, 600);
+			redisUtil.set(user.getId().toString(), userQuery, 600);
 			return userQuery;
 		}
 		return (User) queryObj;
@@ -72,11 +71,24 @@ public class UserServiceImpl implements UserService {
 		Integer inseetStatus = userMapper.insert(user);
 
 		if (1 == inseetStatus) {
-			rdRedisUtil.set(user.getId().toString(), user, 200);
+			redisUtil.set(user.getId().toString(), user, 200);
 			json.put("userID", user.getId());
 			sender.creatDeadTask(json);
 		}
 		return user;
+	}
+
+	/**
+	 * 刪除
+	 */
+	@Override
+	public void delete(User user) {
+		Object queryObj = redisUtil.get(user.getId().toString());
+		if (null != queryObj) {
+			redisUtil.del(user.getId().toString());
+		}
+		userMapper.deleteByPrimaryKey(user.getId());
+
 	}
 
 }

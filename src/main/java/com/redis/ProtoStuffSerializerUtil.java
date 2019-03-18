@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,13 +19,14 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 /**
- * 序列话工具
+ * 序列化工具
  */
 public class ProtoStuffSerializerUtil {
 	private static Logger log = LoggerFactory.getLogger(ProtoStuffSerializerUtil.class);
 
 	/**
 	 * 序列化对象
+	 * 
 	 * @param obj
 	 * @return
 	 */
@@ -34,14 +34,12 @@ public class ProtoStuffSerializerUtil {
 		if (obj == null) {
 			throw new RuntimeException("序列化对象(" + obj + ")!");
 		}
-		if ((obj instanceof String)
-				|| (obj instanceof Long)
-				|| (obj instanceof Integer)) {
+		if ((obj instanceof String) || (obj instanceof Long) || (obj instanceof Integer)) {
 			try {
 				return (obj + "").getBytes("UTF-8");
 			} catch (Exception e) {
 				throw new RuntimeException("序列化(" + obj.getClass() + ")对象(" + obj + ")发生异常!", e);
-			}			
+			}
 		}
 		@SuppressWarnings("unchecked")
 		Schema<T> schema = (Schema<T>) RuntimeSchema.getSchema(obj.getClass());
@@ -59,6 +57,7 @@ public class ProtoStuffSerializerUtil {
 
 	/**
 	 * 反序列化对象
+	 * 
 	 * @param paramArrayOfByte
 	 * @param targetClass
 	 * @return
@@ -67,17 +66,16 @@ public class ProtoStuffSerializerUtil {
 		if (paramArrayOfByte == null || paramArrayOfByte.length == 0) {
 			throw new RuntimeException("反序列化对象发生异常,byte序列为空!");
 		}
-		
-		if ((targetClass.getSimpleName().equals("String"))
-				|| (targetClass.getSimpleName().equals("Long"))
+
+		if ((targetClass.getSimpleName().equals("String")) || (targetClass.getSimpleName().equals("Long"))
 				|| (targetClass.getSimpleName().equals("Integer"))) {
 			try {
 				return (T) new String(paramArrayOfByte, "UTF-8");
 			} catch (Exception e) {
 				throw new RuntimeException("反序列化过程中依据类型创建对象失败!", e);
-			}			
+			}
 		}
-		
+
 		T instance = null;
 
 		try {
@@ -87,12 +85,13 @@ public class ProtoStuffSerializerUtil {
 		}
 		Schema<T> schema = RuntimeSchema.getSchema(targetClass);
 		ProtobufIOUtil.mergeFrom(paramArrayOfByte, instance, schema);
-		
+
 		return instance;
 	}
 
 	/**
 	 * 序列化列表
+	 * 
 	 * @param objList
 	 * @return
 	 */
@@ -127,6 +126,7 @@ public class ProtoStuffSerializerUtil {
 
 	/**
 	 * 反序列化列表
+	 * 
 	 * @param paramArrayOfByte
 	 * @param targetClass
 	 * @return
@@ -145,16 +145,17 @@ public class ProtoStuffSerializerUtil {
 		}
 		return result;
 	}
-	
+
 	public static <T> List<T> deserializeList(List<byte[]> paramArrayOfByte, Class<T> targetClass) {
 		if (paramArrayOfByte == null || paramArrayOfByte.size() == 0) {
 			throw new RuntimeException("反序列化对象发生异常,byte序列为空!");
 		}
-		
+
 		List<T> result = Lists.newArrayList();
 		for (byte[] param : paramArrayOfByte) {
 			try {
-				if (param == null) continue;
+				if (param == null)
+					continue;
 				result.add(deserialize(param, targetClass));
 			} catch (Exception e) {
 				log.error("反序列化对象发生异常", e);
@@ -163,55 +164,56 @@ public class ProtoStuffSerializerUtil {
 
 		return result;
 	}
-	
+
 	public static Map<byte[], byte[]> serializeMap(Map<String, String> paramArrayOfByte) {
 		Map<byte[], byte[]> result = Maps.newHashMap();
-		
+
 		try {
 			String bvalue = null;
 			for (String bkey : paramArrayOfByte.keySet()) {
 				bvalue = paramArrayOfByte.get(bkey);
-				if (bvalue == null) continue;
-				
+				if (bvalue == null)
+					continue;
+
 				result.put(bkey.getBytes("UTF-8"), bvalue.getBytes("UTF-8"));
 			}
 		} catch (Exception e) {
 			throw new RuntimeException("反序列化hash对象列表发生异常!", e);
 		}
-		
+
 		return result;
 	}
-	
+
 	public static Map<String, String> deserializeList(Map<byte[], byte[]> paramArrayOfByte) {
 		Map<String, String> result = Maps.newHashMap();
-		
+
 		try {
 			byte[] bvalue = null;
 			for (byte[] bkey : paramArrayOfByte.keySet()) {
 				bvalue = paramArrayOfByte.get(bkey);
-				if (bvalue == null) continue;
-				
+				if (bvalue == null)
+					continue;
+
 				result.put(new String(bkey, "UTF-8"), new String(bvalue, "UTF-8"));
 			}
 		} catch (Exception e) {
 			throw new RuntimeException("反序列化hash对象列表发生异常!", e);
 		}
-		
+
 		return result;
 	}
 
-	public static <T> Set<T> deserializeSet(Set<byte[]> paramArrayOfByte,Class<T> targetClass) {
+	public static <T> Set<T> deserializeSet(Set<byte[]> paramArrayOfByte, Class<T> targetClass) {
 		Set<T> set = new HashSet<>();
 		try {
 			for (byte[] bvalue : paramArrayOfByte) {
-				set.add(deserialize(bvalue,targetClass));
+				set.add(deserialize(bvalue, targetClass));
 			}
 		} catch (Exception e) {
 			throw new RuntimeException("反序列化hash对象列表发生异常!", e);
 		}
 		return set;
 	}
-
 
 	public static <T> List<T> deserializeListContainsNull(List<byte[]> paramArrayOfByte, Class<T> targetClass) {
 		if (paramArrayOfByte == null || paramArrayOfByte.size() == 0) {
