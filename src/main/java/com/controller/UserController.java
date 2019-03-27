@@ -1,13 +1,20 @@
 package com.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ColaApplication;
+import com.config.ValidateHelper;
 import com.constants.ErrorCodeEnum;
 import com.entity.User;
 import com.rabbitmq.Send.Sender;
@@ -31,10 +38,12 @@ public class UserController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "find", method = RequestMethod.POST)
-	public ResponseResult<User> find(@RequestBody User user) throws Exception {
-		
+	public ResponseResult<User> find(@RequestBody User user) {
+
+		ValidateHelper.validateNull(user, new String[] { "id" });
+
 		User userQuery = userService.findById(user);
-		
+
 		return new ResponseResult<User>(ErrorCodeEnum.SUCCESS.getCode().toString(),
 				ErrorCodeEnum.SUCCESS.getDesc().toString(), userQuery);
 	}
@@ -46,13 +55,13 @@ public class UserController {
 	 */
 	@RequestMapping(value = "save", method = RequestMethod.POST)
 	public ResponseResult<User> save(@RequestBody User user) throws Exception {
-		
+
 		userService.save(user);
-		
+
 		return new ResponseResult<>(ErrorCodeEnum.SUCCESS.getCode().toString(),
 				ErrorCodeEnum.SUCCESS.getDesc().toString(), user);
 	}
-	
+
 	/**
 	 * 新增
 	 * 
@@ -60,10 +69,11 @@ public class UserController {
 	 */
 	@RequestMapping(value = "delete", method = RequestMethod.POST)
 	public ResponseResult<User> delete(@RequestBody User user) throws Exception {
-		
+
 		userService.save(user);
-		
+
 		return new ResponseResult<>(ErrorCodeEnum.SUCCESS.getCode().toString(),
 				ErrorCodeEnum.SUCCESS.getDesc().toString(), user);
 	}
+	
 }

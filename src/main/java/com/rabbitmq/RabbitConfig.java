@@ -75,6 +75,8 @@ public class RabbitConfig {
 	/**
 	 * 声明一个直连交换机,并设置支持持久化。
 	 * durable(true)：支付 durable(false)不支持
+	 * direct类型的Exchange路由规则也很简单，它会把消息路由到那些Binding key与Routing key完全匹配的Queue中。  
+	 * 只要key匹配上routingkey 就直接转发到对应的queue
 	 * 交换机名称：DIRECT_EXCHANGE
 	 *
 	 * @return the exchange
@@ -117,6 +119,7 @@ public class RabbitConfig {
 
 	/**
 	 * 声明 一个FANOUT路由.並且支持持久化
+	 * fanout类型的Exchange路由规则非常简单，它会把所有发送到该Exchange的消息路由到所有与它绑定的Queue中。 只要绑定就会转发到对应的queue中
 	 * 路由名稱：FANOUT_EXCHANGE
 	 * @return the exchange
 	 */

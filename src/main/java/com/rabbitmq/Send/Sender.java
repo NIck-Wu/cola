@@ -42,4 +42,6 @@ public class Sender {
 		System.out.println("消息发送时间： "+ sdf.format(new Date())+", 消息内容为 ："+json.toString());
 		return true;
 	}
+	
+	
 }
