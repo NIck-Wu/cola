@@ -9,10 +9,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSONObject;
+import com.config.BusinessException;
+import com.constants.ErrorCodeEnum;
 import com.entity.User;
 import com.mapper.UserMapper;
 import com.rabbitmq.Send.Sender;
 import com.redis.RedisUtil;
+import com.respons.ResponseResult;
 import com.server.UserService;
 
 /**
@@ -26,6 +29,9 @@ import com.server.UserService;
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
+	
+	//redis缓存失效时间  600s
+	private static final int exper_time_redis= 600 ;
 	@Resource
 	private RedisUtil redisUtil;
 	@Resource
@@ -40,17 +46,21 @@ public class UserServiceImpl implements UserService {
 	 * @return
 	 */
 	@Override
-	public User findById(User user) {
+	public ResponseResult<User> findById(User user) {
+		
 		Object queryObj = redisUtil.get(user.getId().toString());
+		
 		if (null == queryObj) {
 			User userQuery = userMapper.selectByPrimaryKey(user.getId());
 			if (null == userQuery) {
-				return userQuery;
+				throw new BusinessException(ErrorCodeEnum.SUCCESS.getCode(), ErrorCodeEnum.SUCCESS.getDesc());
+//				return userQuery;
 			}
 			redisUtil.set(user.getId().toString(), userQuery, 600);
-			return userQuery;
+			return null;
 		}
-		return (User) queryObj;
+		return null;
+//		return (User) queryObj;
 	}
 
 	/**
@@ -88,7 +98,6 @@ public class UserServiceImpl implements UserService {
 			redisUtil.del(user.getId().toString());
 		}
 		userMapper.deleteByPrimaryKey(user.getId());
-
 	}
 
 }

@@ -1,19 +1,13 @@
 package com.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringApplication;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ColaApplication;
 import com.config.ValidateHelper;
 import com.constants.ErrorCodeEnum;
 import com.entity.User;
@@ -42,10 +36,7 @@ public class UserController {
 
 		ValidateHelper.validateNull(user, new String[] { "id" });
 
-		User userQuery = userService.findById(user);
-
-		return new ResponseResult<User>(ErrorCodeEnum.SUCCESS.getCode().toString(),
-				ErrorCodeEnum.SUCCESS.getDesc().toString(), userQuery);
+		return  userService.findById(user);
 	}
 
 	/**

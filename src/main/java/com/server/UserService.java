@@ -3,6 +3,7 @@ package com.server;
 import java.util.List;
 
 import com.entity.User;
+import com.respons.ResponseResult;
 
 public interface UserService {
 
@@ -12,7 +13,7 @@ public interface UserService {
 	 * @param user
 	 * @return
 	 */
-	public User findById(User user);
+	public ResponseResult<User> findById(User user);
 
 	/**
 	 * 列表
