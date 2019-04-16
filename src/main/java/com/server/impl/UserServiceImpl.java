@@ -1,5 +1,6 @@
 package com.server.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -8,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.alibaba.fastjson.JSONObject;
-import com.config.BusinessException;
 import com.constants.ErrorCodeEnum;
 import com.entity.User;
 import com.mapper.UserMapper;
@@ -30,12 +29,12 @@ import com.server.UserService;
 @Transactional
 public class UserServiceImpl implements UserService {
 	
-	//redis缓存失效时间  600s
-	private static final int exper_time_redis= 600 ;
+	
+	private static final int EXPER_TIME_REDIS= 1000 ; //redis缓存失效时间  10s
 	@Resource
-	private RedisUtil redisUtil;
+	private RedisUtil redisUtil;  //redis工具类
 	@Resource
-	private Sender sender; // 死信队列發送者
+	private Sender sender; // 死信队列发送者
 	@Autowired
 	private UserMapper userMapper;
 
@@ -48,19 +47,15 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public ResponseResult<User> findById(User user) {
 		
-		Object queryObj = redisUtil.get(user.getId().toString());
-		
-		if (null == queryObj) {
+		Object userByRedis = redisUtil.get(user.getId().toString());
+		if (null == userByRedis) {
 			User userQuery = userMapper.selectByPrimaryKey(user.getId());
 			if (null == userQuery) {
-				throw new BusinessException(ErrorCodeEnum.SUCCESS.getCode(), ErrorCodeEnum.SUCCESS.getDesc());
-//				return userQuery;
+				return new ResponseResult<User>(ErrorCodeEnum.SUCCESS.getCode(),ErrorCodeEnum.SUCCESS.getDesc());
 			}
-			redisUtil.set(user.getId().toString(), userQuery, 600);
-			return null;
+			redisUtil.set(user.getId().toString(), userQuery, EXPER_TIME_REDIS);
 		}
-		return null;
-//		return (User) queryObj;
+		return new ResponseResult<User>(ErrorCodeEnum.SUCCESS.getCode(),ErrorCodeEnum.SUCCESS.getDesc(),(User) userByRedis);
 	}
 
 	/**
@@ -77,14 +72,9 @@ public class UserServiceImpl implements UserService {
 	 */
 	@Override
 	public User save(User user) {
-		JSONObject json = new JSONObject();
-		Integer inseetStatus = userMapper.insert(user);
-
-		if (1 == inseetStatus) {
-			redisUtil.set(user.getId().toString(), user, 200);
-			json.put("userID", user.getId());
-			sender.creatDeadTask(json);
-		}
+		user.setCreatTime(new Date());
+		user.setLastUpdate(new Date());
+		userMapper.insert(user);
 		return user;
 	}
 
@@ -94,9 +84,10 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void delete(User user) {
 		Object queryObj = redisUtil.get(user.getId().toString());
-		if (null != queryObj) {
-			redisUtil.del(user.getId().toString());
+		if (null == queryObj) {
+			
 		}
+		redisUtil.del(user.getId().toString());
 		userMapper.deleteByPrimaryKey(user.getId());
 	}
 

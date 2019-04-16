@@ -1,5 +1,7 @@
 package com.controller;
 
+import java.io.IOException;
+
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,20 +24,20 @@ public class UserController {
 	private Sender sender;
 	@Autowired
 	private UserService userService;
-
 	/**
 	 * 查询
 	 * 
 	 * @param user
 	 * @return
 	 * @return
+	 * @throws IOException 
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "find", method = RequestMethod.POST)
-	public ResponseResult<User> find(@RequestBody User user) {
-
+	public ResponseResult<User> find(@RequestBody User user) throws IOException {
+		
 		ValidateHelper.validateNull(user, new String[] { "id" });
-
+		
 		return  userService.findById(user);
 	}
 

@@ -120,7 +120,7 @@
 		</filter>
 	</appender>
 
-	<logger name="com.wsh" level="DEBUG" />
+	<logger name="com.cola" level="DEBUG" />
 	<logger name="org.springframework" level="WARN" />
 	<logger name="org.hibernate" level="WARN" />
 	<logger name="org.mybatis.spring" level="WARN" />
