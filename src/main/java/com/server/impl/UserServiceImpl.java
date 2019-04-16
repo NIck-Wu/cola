@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
 				return new ResponseResult<User>(ErrorCodeEnum.SUCCESS.getCode(),ErrorCodeEnum.SUCCESS.getDesc());
 			}
 			redisUtil.set(user.getId().toString(), userQuery, EXPER_TIME_REDIS);
-			return new ResponseResult<User>(ErrorCodeEnum.SUCCESS.getCode(),ErrorCodeEnum.SUCCESS.getDesc(), userQuery);
+			return new ResponseResult<User>(ErrorCodeEnum.SUCCESS.getCode(),ErrorCodeEnum.SUCCESS.getDesc(),userQuery);
 		}
 		return new ResponseResult<User>(ErrorCodeEnum.SUCCESS.getCode(),ErrorCodeEnum.SUCCESS.getDesc(),(User) userByRedis);
 	}
