@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.alibaba.fastjson.JSONObject;
 import com.constants.ErrorCodeEnum;
 import com.entity.User;
 import com.mapper.UserMapper;
@@ -54,7 +55,11 @@ public class UserServiceImpl implements UserService {
 				return new ResponseResult<User>(ErrorCodeEnum.SUCCESS.getCode(),ErrorCodeEnum.SUCCESS.getDesc());
 			}
 			redisUtil.set(user.getId().toString(), userQuery, EXPER_TIME_REDIS);
-			return new ResponseResult<User>(ErrorCodeEnum.SUCCESS.getCode(),ErrorCodeEnum.SUCCESS.getDesc(),userQuery);
+			
+			JSONObject json = new JSONObject();
+			json.put("userID",user.getId());
+			sender.creatDeadTask(json);
+			return new ResponseResult<User>(ErrorCodeEnum.SUCCESS.getCode(),ErrorCodeEnum.SUCCESS.getDesc(), userQuery);
 		}
 		return new ResponseResult<User>(ErrorCodeEnum.SUCCESS.getCode(),ErrorCodeEnum.SUCCESS.getDesc(),(User) userByRedis);
 	}

@@ -83,8 +83,11 @@ public class Receiver {
 		JSONObject requestJson=JSONObject.parseObject(requestString);
 		User user = userMapper.selectByPrimaryKey(Integer.parseInt(requestJson.getString("userID")));
 		if(null!=user) {
-			userMapper.deleteByPrimaryKey(Integer.parseInt(requestJson.getString("userID")));
-			System.out.println("消息處理時間： "+ sdf.format(new Date())+", 消息内容为 ："+requestString+", 刪除用戶");
+			user.setPhoneNumber("001");
+			user.setLastUpdate(new Date());
+			userMapper.updateByPrimaryKeySelective(user);
+//			userMapper.deleteByPrimaryKey(Integer.parseInt(requestJson.getString("userID")));
+			System.out.println("消息處理時間： "+ sdf.format(new Date())+", 消息内容为 ："+requestString+", 更新用户信息");
 		}
 	}
 }
